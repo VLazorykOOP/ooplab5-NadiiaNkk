@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Window {
+protected:
+    int width;
+    int height;
+
+public:
+    Window(int width, int height) : width(width), height(height) {}
+
+    virtual ~Window() {}
+
+    virtual void display() const {
+        cout << "Вікно розміром " << width << "x" << height << endl;
+    }
+};
+
+class TitledWindow : public Window {
+private:
+    string title;
+
+public:
+    TitledWindow(int width, int height, const string& title) : Window(width, height), title(title) {}
+
+    virtual void display() const override {
+        cout << "Вікно з заголовком '" << title << "' розміром " << width << "x" << height << endl;
+    }
+};
+
+class ButtonWindow : public Window {
+private:
+    string buttonText;
+
+public:
+    ButtonWindow(int width, int height, const string& buttonText) : Window(width, height), buttonText(buttonText) {}
+
+    virtual void display() const override {
+        cout << "Вікно з кнопкою '" << buttonText << "' розміром " << width << "x" << height << endl;
+    }
+};
+
+int main() {
+    Window window1(200, 100);
+    TitledWindow titledWindow1(300, 150, "Моє вікно");
+    ButtonWindow buttonWindow1(250, 120, "Натисни мене");
+
+    cout << "Інформація про вікна:" << endl;
+    window1.display();
+    titledWindow1.display();
+    buttonWindow1.display();
+
+    return 0;
+}
