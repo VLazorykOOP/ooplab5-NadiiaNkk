@@ -1,0 +1,90 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+class Student {
+protected:
+    string name;
+    int age;
+
+public:
+    Student(const string& name, int age) : name(name), age(age) {}
+
+    Student(const Student& other) : name(other.name), age(other.age) {}
+
+    Student& operator=(const Student& other) {
+        if (this != &other) {
+            name = other.name;
+            age = other.age;
+        }
+        return *this;
+    }
+
+    friend ostream& operator<<(ostream& os, const Student& student) {
+        os << "Ім'я: " << student.name << ", Вік: " << student.age;
+        return os;
+    }
+
+    friend istream& operator>>(istream& is, Student& student) {
+        cout << "Введіть ім'я студента: ";
+        is >> student.name;
+        cout << "Введіть вік студента: ";
+        is >> student.age;
+        return is;
+    }
+};
+
+class GraduateStudent : public Student {
+private:
+    string thesisTopic;
+
+public:
+    GraduateStudent() : Student("", 0), thesisTopic("") {}
+
+    GraduateStudent(const string& name, int age, const string& thesisTopic) : Student(name, age), thesisTopic(thesisTopic) {}
+
+    GraduateStudent(const GraduateStudent& other) : Student(other), thesisTopic(other.thesisTopic) {}
+
+    GraduateStudent& operator=(const GraduateStudent& other) {
+        if (this != &other) {
+            Student::operator=(other);
+            thesisTopic = other.thesisTopic;
+        }
+        return *this;
+    }
+
+    friend ostream& operator<<(ostream& os, const GraduateStudent& student) {
+        os << static_cast<const Student&>(student) << ", Тема дипломної роботи: " << student.thesisTopic;
+        return os;
+    }
+
+    friend istream& operator>>(istream& is, GraduateStudent& student) {
+        Student& baseStudent = student;
+        is >> baseStudent;
+        cout << "Введіть тему дипломної роботи: ";
+        is >> student.thesisTopic;
+        return is;
+    }
+};
+
+int main() {
+
+    Student student1("Іван", 20);
+    cout << "Інформація про студента 1: " << student1 << endl;
+
+    GraduateStudent graduateStudent1("Петро", 25, "Аналіз даних");
+    cout << "Інформація про студента-дипломника 1: " << graduateStudent1 << endl;
+
+    GraduateStudent graduateStudent2("Марія", 23, "Штучний інтелект");
+    cout << "Інформація про студента-дипломника 2: " << graduateStudent2 << endl;
+
+
+    GraduateStudent graduateStudent3;
+    cout << "Введіть дані для студента-дипломника 3:" << endl;
+    cin >> graduateStudent3;
+    cout << "Інформація про студента-дипломника 3: " << graduateStudent3 << endl;
+
+    return 0;
+}
