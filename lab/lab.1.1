@@ -1,0 +1,73 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Person {
+protected:
+    string surname;
+    string name;
+    string patronymic;
+    int age;
+    float weight;
+
+public:
+    Person(string surname, string name, string patronymic, int age, float weight) : 
+        surname(surname), name(name), patronymic(patronymic), age(age), weight(weight) {}
+
+    Person() : age(0), weight(0.0) {}
+
+    ~Person() {}
+
+    void print() {
+        cout << "ПІБ: " << surname << " " << name << " " << patronymic << endl;
+        cout << "Вік: " << age << endl;
+        cout << "Вага: " << weight << endl;
+    }
+
+    void setAge(int newAge) {
+        age = newAge;
+    }
+};
+
+class Schoolboy : public Person {
+private:
+    int grade;
+
+public:
+    Schoolboy(string surname, string name, string patronymic, int age, float weight, int grade) :
+        Person(surname, name, patronymic, age, weight), grade(grade) {}
+
+    Schoolboy() : grade(0) {}
+
+    ~Schoolboy() {}
+
+    void print() {
+        Person::print();
+        cout << "Клас: " << grade << endl;
+    }
+
+    void setGrade(int newGrade) {
+        grade = newGrade;
+    }
+};
+
+int main() {
+    Person person1("Іванов", "Іван", "Іванович", 30, 75.5);
+    cout << "Людина 1:" << endl;
+    person1.print();
+
+    Schoolboy schoolboy1("Петров", "Петро", "Петрович", 12, 40.2, 6);
+    cout << "\nШколяр 1:" << endl;
+    schoolboy1.print();
+
+    schoolboy1.setAge(13);
+    cout << "\nЗмінений вік Школяра 1:" << endl;
+    schoolboy1.print();
+
+    schoolboy1.setGrade(7);
+    cout << "\nЗмінений клас Школяра 1:" << endl;
+    schoolboy1.print();
+
+    return 0;
+}
